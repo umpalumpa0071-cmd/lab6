@@ -1,31 +1,62 @@
-﻿public class StudentMarks : ThreeMarks
+using System.Xml.Linq;
+
+public class StudentMarks : ThreeMarks
 {
-    public StudentMarks() : base(2, 2, 2, "") { }
+    private int _firstMark;
+    private int _secondMark;
+    private int _thirdMark;
 
-    public StudentMarks(int a, int b, int c, string comment) : base(a, b, c, comment) { }
+    public StudentMarks() : this(2, 2, 2, "") { }
 
-    public StudentMarks(StudentMarks other) : base(other) { }
+    public StudentMarks(int a, int b, int c, string comment) : base(comment)
+    {
+        _firstMark = a;
+        _secondMark = b;
+        _thirdMark = c;
+    }
 
-    // проверка: сдал ли студент
+    public StudentMarks(StudentMarks other) : base(other)
+    {
+        _firstMark = other._firstMark;
+        _secondMark = other._secondMark;
+        _thirdMark = other._thirdMark;
+    }
+
+    public int FirstMark
+    {
+        get { return _firstMark; }
+        set { _firstMark = value; }
+    }
+
+    public int SecondMark
+    {
+        get { return _secondMark; }
+        set { _secondMark = value; }
+    }
+
+    public int ThirdMark
+    {
+        get { return _thirdMark; }
+        set { _thirdMark = value; }
+    }
+
+    public double GetAverage()
+    {
+        return (_firstMark + _secondMark + _thirdMark) / 3.0;
+    }
+
     public bool IsPassed()
     {
-        return FirstMark >= 3 && SecondMark >= 3 && ThirdMark >= 3;
+        return _firstMark >= 3 && _secondMark >= 3 && _thirdMark >= 3;
     }
 
-    // максимальная оценка
     public int GetMaxMark()
     {
-        return Math.Max(FirstMark, Math.Max(SecondMark, ThirdMark));
-    }
-
-    // есть ли 5
-    public bool HasExcellent()
-    {
-        return FirstMark == 5 || SecondMark == 5 || ThirdMark == 5;
+        return Math.Max(_firstMark, Math.Max(_secondMark, _thirdMark));
     }
 
     public override string ToString()
     {
-        return $"student marks: {FirstMark}, {SecondMark}, {ThirdMark}";
+        return $"marks: [{_firstMark}, {_secondMark}, {_thirdMark}], comment: {Comment}";
     }
 }
